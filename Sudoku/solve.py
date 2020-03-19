@@ -39,6 +39,52 @@ def find_empty(bo):
                 #return a tuple of the position
                 return (i, j) #row, col
 
-#
+    return None #if there are no empty spots
 
+#check if the baord is valid
+def valid(bo, num, pos):
+    #check row
+    for i in range(len(bo[0])):
+        if bo[pos[0]][i] == num and pos[1] != i:
+            return False
+
+    #check column
+    for i in range(len(bo)):
+        if bo[i][pos[1]] == num and pos[0] != i:
+            return False
+
+    #check box
+    box_x = pos[1] // 3
+    box_y = pos[0] // 3
+
+    for i in range (box_y * 3, box_y * 3 + 3):
+        for j in range (box_x * 3, box_x * 3 + 3):
+            if bo[i][j] == num and (i,j) != pos:
+                return False
+
+    #only reached if conditions are met
+    return True
+
+#solve ther board useing recrusion
+def solve(bo):
+    #check to see if board is comeplete, ie at the bottum right corner
+    find = find_empty(bo)
+    if not find:
+        return True #means we have comepleted the baord
+    else:
+        row, col = find
+
+    for i in range(1, 10): #loop 1 through 9
+        if valid(bo, i, (row, col)):
+            bo[row][col] = i #add into board
+
+            if solve(bo):
+                return True
+
+            bo[row][col] = 0 #backtracking
+
+    return False
+
+print_board(board)
+solve(board)
 print_board(board)
