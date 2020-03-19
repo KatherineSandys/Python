@@ -13,44 +13,42 @@ board = [
 ]
 
 #print out the board
-def print_board(bo):
+def print_board(board_user):
 
-    for i in range(len(bo)):
+    for i in range(len(board_user)):
         if i % 3 == 0 and i != 0:
             print("- - - - - - - - - - - ")
 
-        for j in range(len(bo[0])):
+        for j in range(len(board_user[0])):
             if j % 3 == 0 and j != 0:
                 print("| ", end="") #doesnt add /n at the end
 
             if j == 8:
-                print(bo[i][j])
+                print(board_user[i][j])
             else:
-                print(str(bo[i][j]) + " ", end="") #doesnt add /n at the end
-
-    print("") #add a newline afterwards
+                print(str(board_user[i][j]) + " ", end="") #doesnt add /n at the end
 
 #find an empty square and return the position
-def find_empty(bo):
+def find_empty(board_user):
     #loop through board and find a space that equals 0
-    for i in range(len(bo)):
-        for j in range(len(bo[0])):
-            if bo[i][j] == 0:
+    for i in range(len(board_user)):
+        for j in range(len(board_user[0])):
+            if board_user[i][j] == 0:
                 #return a tuple of the position
                 return (i, j) #row, col
 
     return None #if there are no empty spots
 
 #check if the baord is valid
-def valid(bo, num, pos):
+def valid(board_user, num, pos):
     #check row
-    for i in range(len(bo[0])):
-        if bo[pos[0]][i] == num and pos[1] != i:
+    for i in range(len(board_user[0])):
+        if board_user[pos[0]][i] == num and pos[1] != i:
             return False
 
     #check column
-    for i in range(len(bo)):
-        if bo[i][pos[1]] == num and pos[0] != i:
+    for i in range(len(board_user)):
+        if board_user[i][pos[1]] == num and pos[0] != i:
             return False
 
     #check box
@@ -59,32 +57,33 @@ def valid(bo, num, pos):
 
     for i in range (box_y * 3, box_y * 3 + 3):
         for j in range (box_x * 3, box_x * 3 + 3):
-            if bo[i][j] == num and (i,j) != pos:
+            if board_user[i][j] == num and (i,j) != pos:
                 return False
 
     #only reached if conditions are met
     return True
 
 #solve ther board useing recrusion
-def solve(bo):
+def solve(board_user):
     #check to see if board is comeplete, ie at the bottum right corner
-    find = find_empty(bo)
+    find = find_empty(board_user)
     if not find:
         return True #means we have comepleted the baord
     else:
         row, col = find
 
     for i in range(1, 10): #loop 1 through 9
-        if valid(bo, i, (row, col)):
-            bo[row][col] = i #add into board
+        if valid(board_user, i, (row, col)):
+            board_user[row][col] = i #add into board
 
-            if solve(bo):
+            if solve(board_user):
                 return True
 
-            bo[row][col] = 0 #backtracking
+            board_user[row][col] = 0 #backtracking
 
     return False
 
 print_board(board)
+print("+++++++++++++++++++++++++")
 solve(board)
 print_board(board)
