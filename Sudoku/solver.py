@@ -1,5 +1,6 @@
 #useing backtracking
 
+#given board to solve
 board = [
     [7,8,0,4,0,0,1,2,0],
     [6,0,0,0,7,5,0,0,9],
@@ -14,7 +15,6 @@ board = [
 
 #print out the board
 def print_board(board_user):
-
     for i in range(len(board_user)):
         if i % 3 == 0 and i != 0:
             print("- - - - - - - - - - - ")
